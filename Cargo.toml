@@ -1,0 +1,14 @@
+[workspace]
+resolver = "3"
+members = ["mylint_core", "mylint_cli", "mylint_lsp"]
+
+[workspace.package]
+edition = "2024"
+version = "0.1.0"
+
+[workspace.dependencies]
+mylint_core = { path = "mylint_core" }
+oxc_parser = "=0.154.0"
+oxc_ast = "=0.154.0"
+oxc_span = "=0.154.0"
+oxc_allocator = "=0.154.0"

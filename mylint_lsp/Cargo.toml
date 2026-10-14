@@ -1,0 +1,7 @@
+[package]
+name = "mylint_lsp"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+mylint_core.workspace = true

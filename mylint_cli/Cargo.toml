@@ -1,0 +1,10 @@
+[package]
+name = "mylint_cli"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+mylint_core.workspace = true
+oxc_allocator.workspace = true
+oxc_parser.workspace = true
+oxc_span.workspace = true

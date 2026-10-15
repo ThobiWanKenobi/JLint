@@ -1,4 +1,4 @@
-use std::{fs, env, path::Path};
+use std::{env, fs, path::{Path, PathBuf}};
 
 use mylint_core::lint_source;
 use oxc_span::SourceType;
@@ -9,6 +9,18 @@ fn main() -> Result<(), String> {
     if args.len() < 2 {
         return Err("Filepath is not specified".to_string());
     }
+
+    let (collected, errors) = collect_files(&args[1..].to_vec());
+
+    for entry in collected {
+        println!("{:#?}: ok", entry);
+    }
+
+    for entry in errors {
+        println!("{:#?}: err", entry);
+    }
+
+    println!("Linted {} files.", args.len() - 1);
 
     let name = &args[1];
 
@@ -22,4 +34,23 @@ fn main() -> Result<(), String> {
     println!("{:#?}", lint_diagnostics);
 
     Ok(())
+}
+
+fn collect_files(args: &Vec<String>) -> (Vec<PathBuf>, Vec<String> /* errors */) {
+    let mut collected = Vec::new();
+    let mut errors = Vec::new();
+
+    for path in args {
+        let attr_result = fs::metadata(path);
+
+        match attr_result {
+            Ok(attr) =>
+                if attr.is_file() {
+                    collected.push(PathBuf::from(path));
+                }
+            Err(_) => errors.push(String::from(path)),
+        };
+    }
+
+    (collected, errors)
 }
